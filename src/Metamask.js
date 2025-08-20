@@ -59,7 +59,7 @@ const Metamask = () => {
     try {
       const txParams = {
         from: defaultAccount,
-        to: "0x9d9bEA3C852BE30c4738C9fFcB18622fE8a2e5FF", 
+        to: e.target.to_address.value, 
         gas: "0x5208", 
         gasPrice: "0x2540be400",
         value: "0x2386f26fc10000", 
@@ -86,8 +86,14 @@ const Metamask = () => {
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
       <form onSubmit={sendTransaction}>
+        <h3>Enter Transaction Address</h3>
+        <input type='text' name="to_address" placeholder="Address: "/>
         <input type="submit" value="Send 0.01 ETH" />
       </form>
+
+      <hr></hr>
+
+      
     </div>
   );
 };
