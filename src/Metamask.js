@@ -47,6 +47,36 @@ const Metamask = () => {
     }
   }, []);
 
+  // Send Transaction
+  const sendTransaction = async (e) => {
+    e.preventDefault();
+
+    if (!defaultAccount) {
+      setErrorMessage("Please connect MetaMask first");
+      return;
+    }
+
+    try {
+      const txParams = {
+        from: defaultAccount,
+        to: "0x9d9bEA3C852BE30c4738C9fFcB18622fE8a2e5FF", 
+        gas: "0x5208", 
+        gasPrice: "0x2540be400",
+        value: "0x2386f26fc10000", 
+      };
+
+      const result = await window.ethereum.request({
+        method: "eth_sendTransaction",
+        params: [txParams],
+      });
+
+      console.log("Transaction Hash:", result);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(error.message);
+    }
+  };
+
   return (
     <div>
       <h1>Metamask Wallet Connection</h1>
@@ -54,6 +84,10 @@ const Metamask = () => {
       <h3>Address: {defaultAccount}</h3>
       <h3>Balance: {userBalance} ETH</h3>
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+
+      <form onSubmit={sendTransaction}>
+        <input type="submit" value="Send 0.01 ETH" />
+      </form>
     </div>
   );
 };
